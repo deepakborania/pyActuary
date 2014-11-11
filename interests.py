@@ -18,12 +18,12 @@ def pvFactor(iRate, period=1):
     return (1 + iRate) ** (-period)
 
 
-def pv(c, iRate, period):
-    return c * pvFactor(iRate, period)
+def pv(fv, iRate, period):
+    return fv * pvFactor(iRate, period)
 
 
-def pvSimple(c, d, period):
-    return c * (1 - period * d)
+def pvSimple(futureVal, discountRate, period):
+    return futureVal * (1 - period * discountRate)
 
 
 def convertEffectiveRate(iRate, srcPrdLength, targetPrdLength):
