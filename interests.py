@@ -28,3 +28,19 @@ def pvSimple(futureVal, discountRate, period):
 
 def convertEffectiveRate(iRate, srcPrdLength, targetPrdLength):
     return ((1 + iRate) ** (float(targetPrdLength) / srcPrdLength)) - 1
+
+
+def iRateNominalToEffective(ip, p):
+    return ((1 + (float(ip) / p)) ** p) - 1
+
+
+def irateEffectiveToNominal(i, p):
+    return p * (((1 + i) ** (1.0 / p)) - 1)
+
+
+def dRateNominalToEffective(dp, p):
+    return 1 - ((1 - (float(dp) / p)) ** p)
+
+
+def dRateEffectiveToNominal(d, p):
+    return p * (1 - ((1 - d) ** (1.0 / p )))
