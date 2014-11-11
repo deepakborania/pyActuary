@@ -1,29 +1,30 @@
-def simpleIntrFI(p, i, t):
-    return p * i * t
+def simpleIntrFI(p, iRate, period):
+    return p * iRate * period
 
 
-def simpleIntrFV(p, i, t):
-    return p + simpleIntrFI(p, i, t)
+def simpleIntrFV(p, iRate, period):
+    return p + simpleIntrFI(p, iRate, period)
 
 
-def cmpdIntrFI(a, i, n):
-    return cmpdIntrFV(a, i, n) - a
+def cmpdIntrFI(a, iRate, period):
+    return cmpdIntrFV(a, iRate, period) - a
 
 
-def cmpdIntrFV(a, i, n):
-    return a * (i + 1) ** n
+def cmpdIntrFV(a, iRate, period):
+    return a * (iRate + 1) ** period
 
 
-def pvFactor(i, n=1):
-    return (1 + i) ** (-n)
+def pvFactor(iRate, period=1):
+    return (1 + iRate) ** (-period)
 
 
-def pv(c, i, n):
-    return c * pvFactor(i, n)
+def pv(c, iRate, period):
+    return c * pvFactor(iRate, period)
 
 
-def pvSimple(c, d, n):
-    return c * (1 - n * d)
+def pvSimple(c, d, period):
+    return c * (1 - period * d)
 
 
-print pvSimple(100000, 0.15, 8./12)
+def convertEffectiveRate(iRate, srcPrdLength, targetPrdLength):
+    return ((1 + iRate) ** (float(targetPrdLength) / srcPrdLength)) - 1
