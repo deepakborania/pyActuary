@@ -106,7 +106,7 @@ def discount_rate_to_v(d):
     return 1 - d
 
 
-def argumentsCheck(force_function_list, period_list):
+def __arguments_check(force_function_list, period_list):
     if (not isinstance(force_function_list, list)) or (
             not all(hasattr(fn, '__call__') for fn in force_function_list)) or len(force_function_list) == 0:
         raise Exception('A list of functions expected')
@@ -121,7 +121,7 @@ def argumentsCheck(force_function_list, period_list):
 
 
 def accumulation_factor_from_force_fn(force_function_list, period_list):
-    argumentsCheck(force_function_list, period_list)
+    __arguments_check(force_function_list, period_list)
     net_factor = 1
     for idx, force_function in enumerate(force_function_list):
         net_factor *= exp(quad(force_function, period_list[idx], period_list[idx + 1])[0])
@@ -129,24 +129,9 @@ def accumulation_factor_from_force_fn(force_function_list, period_list):
 
 
 def pv_factor_from_force_fn(force_function_list, period_list):
-    argumentsCheck(force_function_list, period_list)
+    __arguments_check(force_function_list, period_list)
     net_factor = 1
     for idx, force_function in enumerate(force_function_list):
         net_factor *= exp(-quad(force_function, period_list[idx], period_list[idx + 1])[0])
     return net_factor
-
-
-# Test Scripts
-def integrand1(x):
-    return 0.08
-
-
-def integrand2(x):
-    return 0.13 - 0.01 * x
-
-
-print accumulation_factor_from_force_fn([integrand1, integrand2], [0, 5, 10]) * 1000
-
-print pv_factor_from_force_fn([integrand1, integrand2], [0, 5, 10]) * 1964.03297597
-
 
