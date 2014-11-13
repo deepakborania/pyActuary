@@ -1,4 +1,3 @@
-from math import exp
 from rateconverters import *
 from scipy.integrate import quad
 import numbers
@@ -63,4 +62,14 @@ def pv_factor_from_force_fn(force_function_list, period_list):
     for idx, force_function in enumerate(force_function_list):
         net_factor *= exp(-quad(force_function, period_list[idx], period_list[idx + 1])[0])
     return net_factor
+
+
+def pv_from_cashflows(cashflows, irate=0):
+    if irate == 0 and not all(len(cashflow) == 3 for cashflow in cashflows):
+        raise Exception(
+            'Either provide a fixed interest rate or provide interest rate as 3rd component of every cash flow tuple.')
+    total_pv = 0
+    for cashflow in cashflows:
+        total_pv += pv(cashflow[1], irate if irate > 0 else cashflow[2], cashflow[0])
+    return total_pv
 
